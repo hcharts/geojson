@@ -3,7 +3,7 @@ layout: home
 title: GeoJSON
 ---
 
-# <span class="fkin">G</span>eo<span class="fkin">J</span>SON -- by [hcharts.cn](http://www.hcharts.cn)
+# <span class="fkin">G</span>eo<span class="fkin">J</span>SON <span class="fsmall">-- by [hcharts.cn](http://www.hcharts.cn)</span>
 
 GeoJSON 是一种对各种地理数据结构进行编码的格式，基于 Javascript 对象 （JavaScript Object Notation）表示法的地理空间信息数据交换格式。
 
@@ -25,3 +25,7 @@ GeoJSON对象可以表示几何、特征或者特征集合。GeoJSON支持下面
 ## Learn More
 
 详细信息请查阅 [文档](geojson-spec.html)。
+
+## Github
+
+[http://github.com/hcharts/geojson](http://github.com/hcharts/geojson)

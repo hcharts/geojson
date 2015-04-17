@@ -70,6 +70,12 @@ table.docinfo th {
   font-size: 1.2em;
 }
 
+.splash h1 span.fsmall {
+  font-size: 0.4em;
+}
+
+
+
 /* Nav Highlighting */
   #nav      {width: 300px; position: fixed; top: 0; left: 0;  bottom: 0; overflow-y: scroll; overflow-x: hidden;}
   #content  {padding: 0 0 0 300px;}
