@@ -1,15 +1,15 @@
 ---
 layout:  nav
-title:   GeoJSON Specification
+title:   GeoJSON 中文文档
 ---
 <!-- NAV -->
 <nav id="nav">
 ### Contents
 
-* [1\. Introduction](#introduction)
-  * [1\.1\. Examples](#examples)
-  * [1\.2\. Definitions](#definitions)
-* [2\. GeoJSON Objects](#geojson-objects)
+* [1\. 简介](#introduction)
+  * [1\.1\. 实例](#examples)
+  * [1\.2\. 定义](#definitions)
+* [2\. GeoJSON 对象](#geojson-objects)
   * [2\.1\. Geometry Objects](#geometry-objects)
     * [2\.1\.1\. Positions](#positions)
     * [2\.1\.2\. Point](#point)
@@ -37,12 +37,12 @@ title:   GeoJSON Specification
 * [Appendix B\. Contributors](#appendix-b-contributors)
 </nav>
 
-# The GeoJSON Format Specification
+# GeoJSON 中文文档
   
 <!-- Document Info -->
 <table class="docinfo">
   <tr>
-    <th>Authors</th>
+    <th>作者</th>
     <td>
       Howard Butler (Hobu Inc.),
       Martin Daly (Cadcorp),
@@ -53,31 +53,42 @@ title:   GeoJSON Specification
     </td>
   </tr>
   <tr>
-    <th>Revision</th>
+    <th>版本</th>
     <td>1.0</td>
   </tr>
   <tr>
-    <th>Date</th>
-    <td>16 June 2008</td>
+    <th>发布时间</th>
+    <td>2008-06-16</td>
   </tr>
   <tr>
-    <th>Abstract</th>
+    <th>摘要</th>
     <td>
-      GeoJSON is a geospatial data interchange format based on JavaScript
-      Object Notation (JSON).
+      GeoJSON 是基于 Javascript 对象表示法的地理空间信息数据交换格式。
     </td>
   </tr>
   <tr>
-    <th>Copyright</th>
+    <th>版权</th>
     <td>
       Copyright &copy; 2008 by the Authors. This work is licensed under a
       <a href="http://creativecommons.org/licenses/by/3.0/us/">
         Creative Commons Attribution 3.0 United States License</a>.
     </td>
   </tr>
+  <tr>
+    <th>中文翻译</th>
+    <td>
+      <a href="http://www.52wulian.cn">John Doe</a>，欢迎大家参与翻译 <a href="http://github.com/hcharts/geojosn">http://github.com/hcharts/geojson</a> 。
+    </td>
+  </tr>
+  <tr>
+    <th>中文版发布</th>
+    <td>
+      中文版发布在 http://geojson.hcharts.cn 上，基于 <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0</a> 协议发布。
+    </td>
+  </tr>
 </table>
 
-## <a id="introduction" href="#introduction">1. Introduction</a>
+## <a id="introduction" href="#introduction">1. 简介</a>
 
 GeoJSON is a format for encoding a variety of geographic data structures.  A
 GeoJSON object may represent a geometry, a feature, or a collection of
