@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GeoJSON 中文文档</title>
+    <meta name="keyword" content="geojson, geo, geojson document, geojson 中文文档">
+    <meta name="description" content="Geojson 中文文档">
+    <meta name="viewport" content="width=device-width">
+    <link href="http://fonts.useso.com/css?family=Open+Sans:400,800" rel="stylesheet" type="text/css">
+
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <section class="content">
+      <div id="content">
+<!-- NAV -->
+
+
+<p><nav id="nav"></p>
+
+<h3>Contents</h3>
+
+<ul>
+<li><a href="#introduction">1. 简介</a>
+
+<ul>
+<li><a href="#examples">1.1. 实例</a></li>
+<li><a href="#definitions">1.2. 定义</a></li>
+</ul>
+</li>
+<li><a href="#geojson-objects">2. GeoJSON 对象</a>
+
+<ul>
+<li><a href="#geometry-objects">2.1. Geometry Objects</a>
+
+<ul>
+<li><a href="#positions">2.1.1. Positions</a></li>
+<li><a href="#point">2.1.2. Point</a></li>
+<li><a href="#multipoint">2.1.3. MultiPoint</a></li>
+<li><a href="#linestring">2.1.4. LineString</a></li>
+<li><a href="#multilinestring">2.1.5. MultiLineString</a></li>
+<li><a href="#polygon">2.1.6. Polygon</a></li>
+<li><a href="#multipolygon">2.1.7. MultiPolygon</a></li>
+<li><a href="#geometry-collection">2.1.8. Geometry Collection</a></li>
+</ul>
+</li>
+<li><a href="#feature-objects">2.2. Feature Objects</a></li>
+<li><a href="#feature-collection-objects">2.3. Feature Collection Objects</a></li>
+</ul>
+</li>
+<li><a href="#coordinate-reference-system-objects">3. Coordinate Reference System Objects</a>
+
+<ul>
+<li><a href="#named-crs">3.1. Named CRS</a></li>
+<li><a href="#linked-crs">3.2. Linked CRS</a>
+
+<ul>
+<li><a href="#link-objects">3.2.1. Link Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#bounding-boxes">4. Bounding Boxes</a></li>
+<li><a href="#appendix-a-geometry-examples">Appendix A. Geometry Examples</a>
+
+<ul>
+<li><a href="#id2">Point</a></li>
+<li><a href="#id3">LineString</a></li>
+<li><a href="#id4">Polygon</a></li>
+<li><a href="#id5">MultiPoint</a></li>
+<li><a href="#id6">MultiLineString</a></li>
+<li><a href="#id7">MultiPolygon</a></li>
+<li><a href="#geometrycollection">GeometryCollection</a></li>
+</ul>
+</li>
+<li><a href="#appendix-b-contributors">Appendix B. Contributors</a>
+</nav></li>
+</ul>
+
+
+<h1>GeoJSON 中文文档</h1>
+
+<!-- Document Info -->
+
+
+<table class="docinfo">
+  <tr>
+    <th>作者</th>
+    <td>
+      Howard Butler (Hobu Inc.),
+      Martin Daly (Cadcorp),
+      Allan Doyle (MIT),
+      Sean Gillies (UNC-Chapel Hill),
+      Tim Schaub (OpenGeo),
+      Christopher Schmidt (MetaCarta)
+    </td>
+  </tr>
+  <tr>
+    <th>版本</th>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <th>发布时间</th>
+    <td>2008-06-16</td>
+  </tr>
+  <tr>
+    <th>摘要</th>
+    <td>
+      GeoJSON 是基于 Javascript 对象表示法的地理空间信息数据交换格式。
+    </td>
+  </tr>
+  <tr>
+    <th>版权</th>
+    <td>
+      Copyright &copy; 2008 by the Authors. This work is licensed under a
+      <a href="http://creativecommons.org/licenses/by/3.0/us/">
+        Creative Commons Attribution 3.0 United States License</a>.
+    </td>
+  </tr>
+  <tr>
+    <th>中文翻译</th>
+    <td>
+      <a href="http://www.52wulian.cn">John Doe</a>，欢迎大家参与翻译 <a href="http://github.com/hcharts/geojosn">http://github.com/hcharts/geojson</a> 。
+    </td>
+  </tr>
+  <tr>
+    <th>中文版发布</th>
+    <td>
+      中文版发布在 http://geojson.hcharts.cn 上，基于 <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0</a> 协议发布。
+    </td>
+  </tr>
+</table>
+
+
+<h2><a id="introduction" href="#introduction">1. 简介</a></h2>
+
+<p>GeoJSON is a format for encoding a variety of geographic data structures.  A
+GeoJSON object may represent a geometry, a feature, or a collection of
+features.  GeoJSON supports the following geometry types: Point, LineString,
+Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection.
+Features in GeoJSON contain a geometry object and additional properties, and a
+feature collection represents a list of features.</p>
+
+<p>A complete GeoJSON data structure is always an object (in JSON terms). In
+GeoJSON, an object consists of a collection of name/value pairs -- also called
+members. For each member, the name is always a string. Member values are either
+a string, number, object, array or one of the literals: <code>true</code>, <code>false</code>, and
+<code>null</code>. An array consists of elements where each element is a value as
+described above.</p>
+
+<h3><a id="examples" href="#examples">1.1. Examples</a></h3>
+
+<p>A GeoJSON feature collection:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;features&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]},</span>
+        <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;prop0&quot;</span><span class="o">:</span> <span class="s2">&quot;value0&quot;</span><span class="p">}</span>
+        <span class="p">},</span>
+      <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;LineString&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">103.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">104.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">105.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+        <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;prop0&quot;</span><span class="o">:</span> <span class="s2">&quot;value0&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;prop1&quot;</span><span class="o">:</span> <span class="mf">0.0</span>
+          <span class="p">}</span>
+        <span class="p">},</span>
+      <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;geometry&quot;</span><span class="o">:</span> <span class="p">{</span>
+           <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+             <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+               <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="p">]</span>
+             <span class="p">]</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+           <span class="s2">&quot;prop0&quot;</span><span class="o">:</span> <span class="s2">&quot;value0&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;prop1&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;this&quot;</span><span class="o">:</span> <span class="s2">&quot;that&quot;</span><span class="p">}</span>
+           <span class="p">}</span>
+         <span class="p">}</span>
+       <span class="p">]</span>
+     <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="definitions" href="#definitions">1.2. Definitions</a></h3>
+
+<ul>
+<li><p>JavaScript Object Notation (JSON), and the terms object, name, value, array,
+and number, are defined in <a href="http://www.ietf.org/rfc/rfc4627.txt">IETF RFC 4627</a>.</p></li>
+<li><p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">IETF RFC 2119</a>.</p></li>
+</ul>
+
+
+<h2><a id="geojson-objects" href="#geojson-objects">2. GeoJSON Objects</a></h2>
+
+<p>GeoJSON always consists of a single object. This object (referred to as the
+GeoJSON object below) represents a geometry, feature, or collection of
+features.</p>
+
+<ul>
+<li><p>The GeoJSON object may have any number of members (name/value pairs).</p></li>
+<li><p>The GeoJSON object must have a member with the name <code>"type"</code>. This member's
+value is a string that determines the type of the GeoJSON object.</p></li>
+<li><p>The value of the type member must be one of: <code>"Point"</code>, <code>"MultiPoint"</code>,
+<code>"LineString"</code>, <code>"MultiLineString"</code>, <code>"Polygon"</code>, <code>"MultiPolygon"</code>,
+<code>"GeometryCollection"</code>, <code>"Feature"</code>, or <code>"FeatureCollection"</code>. The case of the
+type member values must be as shown here.</p></li>
+<li><p>A GeoJSON object may have an optional <code>"crs"</code> member, the value of which must
+be a coordinate reference system object (see
+<a href="#coordinate-reference-system-objects">3. Coordinate Reference System Objects</a>).</p></li>
+<li><p>A GeoJSON object may have a <code>"bbox"</code> member, the value of which must be a
+bounding box array (see <a href="#bounding-boxes">4. Bounding Boxes</a>).</p></li>
+</ul>
+
+
+<h3><a id="geometry-objects" href="#geometry-objects">2.1 Geometry Objects</a></h3>
+
+<p>A geometry is a GeoJSON object where the type member's value is one of the
+following strings: <code>"Point"</code>, <code>"MultiPoint"</code>, <code>"LineString"</code>,
+<code>"MultiLineString"</code>, <code>"Polygon"</code>, <code>"MultiPolygon"</code>, or <code>"GeometryCollection"</code>.</p>
+
+<p>A GeoJSON geometry object of any type other than <code>"GeometryCollection"</code> must
+have a member with the name <code>"coordinates"</code>. The value of the coordinates member
+is always an array. The structure for the elements in this array is determined
+by the type of geometry.</p>
+
+<h4><a id="positions" href="#positions">2.1.1. Positions</a></h4>
+
+<p>A position is the fundamental geometry construct. The <code>"coordinates"</code> member of
+a geometry object is composed of one position (in the case of a Point geometry),
+an array of positions (LineString or MultiPoint geometries), an array of arrays
+of positions (Polygons, MultiLineStrings), or a multidimensional array of
+positions (MultiPolygon).</p>
+
+<p>A position is represented by an array of numbers. There must be at least two
+elements, and may be more. The order of elements must follow x, y, z order
+(easting, northing, altitude for coordinates in a projected coordinate
+reference system, or longitude, latitude, altitude for coordinates in a
+geographic coordinate reference system). Any number of additional elements are
+allowed -- interpretation and meaning of additional elements is beyond the
+scope of this specification.</p>
+
+<p>Examples of positions and geometries are provided in
+<a href="#appendix-a-geometry-examples">Appendix A. Geometry Examples</a>.</p>
+
+<h4><a id="point" href="#point">2.1.2. Point</a></h4>
+
+<p>For type <code>"Point"</code>, the <code>"coordinates"</code> member must be a single position.</p>
+
+<h4><a id="multipoint" href="#multipoint">2.1.3. MultiPoint</a></h4>
+
+<p>For type <code>"MultiPoint"</code>, the <code>"coordinates"</code> member must be an array of
+positions.</p>
+
+<h4><a id="linestring" href="#linestring">2.1.4. LineString</a></h4>
+
+<p>For type <code>"LineString"</code>, the <code>"coordinates"</code> member must be an array of two or
+more positions.</p>
+
+<p>A LinearRing is closed LineString with 4 or more positions. The first and last
+positions are equivalent (they represent equivalent points). Though a
+LinearRing is not explicitly represented as a GeoJSON geometry type, it is
+referred to in the Polygon geometry type definition.</p>
+
+<h4><a id="multilinestring" href="#multilinestring">2.1.5. MultiLineString</a></h4>
+
+<p>For type <code>"MultiLineString"</code>, the <code>"coordinates"</code> member must be an array of
+LineString coordinate arrays.</p>
+
+<h4><a id="polygon" href="#polygon">2.1.6. Polygon</a></h4>
+
+<p>For type <code>"Polygon"</code>, the <code>"coordinates"</code> member must be an array of LinearRing
+coordinate arrays. For Polygons with multiple rings, the first must be the
+exterior ring and any others must be interior rings or holes.</p>
+
+<h4><a id="multipolygon" href="#multipolygon">2.1.7. MultiPolygon</a></h4>
+
+<p>For type <code>"MultiPolygon"</code>, the <code>"coordinates"</code> member must be an array of
+Polygon coordinate arrays.</p>
+
+<h4><a id="geometry-collection" href="#geometry-collection">2.1.8 Geometry Collection</a></h4>
+
+<p>A GeoJSON object with type <code>"GeometryCollection"</code> is a geometry object which
+represents a collection of geometry objects.</p>
+
+<p>A geometry collection must have a member with the name <code>"geometries"</code>. The value
+corresponding to <code>"geometries"</code> is an array. Each element in this array is a
+GeoJSON geometry object.</p>
+
+<h3><a id="feature-objects" href="#feature-objects">2.2. Feature Objects</a></h3>
+
+<p>A GeoJSON object with the type <code>"Feature"</code> is a feature object.</p>
+
+<ul>
+<li><p>A feature object must have a member with the name <code>"geometry"</code>. The value of
+the geometry member is a geometry object as defined above or a JSON null
+value.</p></li>
+<li><p>A feature object must have a member with the name <code>"properties"</code>. The value of
+the properties member is an object (any JSON object or a JSON null value).</p></li>
+<li><p>If a feature has a commonly used identifier, that identifier should be
+included as a member of the feature object with the name <code>"id"</code>.</p></li>
+</ul>
+
+
+<h3><a id="feature-collection-objects" href="#feature-collection-objects">2.3. Feature Collection Objects</a></h3>
+
+<p>A GeoJSON object with the type <code>"FeatureCollection"</code> is a feature collection
+object.</p>
+
+<p>An object of type <code>"FeatureCollection"</code> must have a member with the name
+<code>"features"</code>. The value corresponding to <code>"features"</code> is an array. Each element
+in the array is a feature object as defined above.</p>
+
+<h2><a id="coordinate-reference-system-objects" href="#coordinate-reference-system-objects">3. Coordinate Reference System Objects</a></h2>
+
+<p>The coordinate reference system (CRS) of a GeoJSON object is determined by its
+<code>"crs"</code> member (referred to as the CRS object below). If an object has no crs
+member, then its parent or grandparent object's crs member may be acquired. If
+no crs member can be so acquired, the default CRS shall apply to the GeoJSON
+object.</p>
+
+<ul>
+<li><p>The default CRS is a geographic coordinate reference system, using the WGS84
+datum, and with longitude and latitude units of decimal degrees.</p></li>
+<li><p>The value of a member named <code>"crs"</code> must be a JSON object (referred to as the
+CRS object below) or JSON null. If the value of CRS is null, no CRS can be
+assumed.</p></li>
+<li><p>The crs member should be on the top-level GeoJSON object in a hierarchy (in
+feature collection, feature, geometry order) and should not be repeated or
+overridden on children or grandchildren of the object.</p></li>
+<li><p>A non-null CRS object has two mandatory members: <code>"type"</code> and <code>"properties"</code>.</p></li>
+<li><p>The value of the type member must be a string, indicating the type of CRS
+object.</p></li>
+<li><p>The value of the properties member must be an object.</p></li>
+<li><p>CRS shall not change coordinate ordering (see <a href="#positions">2.1.1. Positions</a>).</p></li>
+</ul>
+
+
+<h3><a id="named-crs" href="#named-crs">3.1. Named CRS</a></h3>
+
+<p>A CRS object may indicate a coordinate reference system by name. In this case,
+the value of its <code>"type"</code> member must be the string <code>"name"</code>. The value of its
+<code>"properties"</code> member must be an object containing a <code>"name"</code> member. The value
+of that <code>"name"</code> member must be a string identifying a coordinate reference
+system.  OGC CRS URNs such as <code>"urn:ogc:def:crs:OGC:1.3:CRS84"</code> shall be
+preferred over legacy identifiers such as <code>"EPSG:4326"</code>:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s2">&quot;crs&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="linked-crs" href="#linked-crs">3.2. Linked CRS</a></h3>
+
+<p>A CRS object may link to CRS parameters on the Web. In this case, the value of
+its <code>"type"</code> member must be the string <code>"link"</code>, and the value of its
+<code>"properties"</code> member must be a Link object (see
+<a href="#link-objects">3.2.1. Link Objects</a>).</p>
+
+<h4><a id="link-objects" href="#link-objects">3.2.1. Link Objects</a></h4>
+
+<p>A link object has one required member: <code>"href"</code>, and one optional member:
+<code>"type"</code>.</p>
+
+<p>The value of the required <code>"href"</code> member must be a dereferenceable URI.</p>
+
+<p>The value of the optional <code>"type"</code> member must be a string that hints at the
+format used to represent CRS parameters at the provided URI. Suggested values
+are: <code>"proj4"</code>, <code>"ogcwkt"</code>, <code>"esriwkt"</code>, but others can be used:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s2">&quot;crs&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;link&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;href&quot;</span><span class="o">:</span> <span class="s2">&quot;http://example.com/crs/42&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;proj4&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<p>Relative links may be used to direct processors to CRS parameters in an
+auxiliary file:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s2">&quot;crs&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;link&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;href&quot;</span><span class="o">:</span> <span class="s2">&quot;data.crs&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;ogcwkt&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h2><a id="bounding-boxes" href="#bounding-boxes">4. Bounding Boxes</a></h2>
+
+<p>To include information on the coordinate range for geometries, features, or
+feature collections, a GeoJSON object may have a member named <code>"bbox"</code>. The
+value of the bbox member must be a 2*n array where n is the number of
+dimensions represented in the contained geometries, with the lowest values for
+all axes followed by the highest values. The axes order of a bbox follows the
+axes order of geometries. In addition, the coordinate reference system for the
+bbox is assumed to match the coordinate reference system of the GeoJSON object
+of which it is a member.</p>
+
+<p>Example of a bbox member on a feature:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bbox&quot;</span><span class="o">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">180.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">],</span>
+    <span class="s2">&quot;geometry&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">180.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">]</span>
+        <span class="p">]]</span>
+      <span class="p">}</span>
+    <span class="p">...</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<p>Example of a bbox member on a feature collection:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bbox&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">105.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+    <span class="s2">&quot;features&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">...</span>
+      <span class="p">]</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h2><a id="appendix-a-geometry-examples" href="#appendix-a-geometry-examples">Appendix A. Geometry Examples</a></h2>
+
+<p>Each of the examples below represents a complete GeoJSON object. Note that
+unquoted whitespace is not significant in JSON. Whitespace is used in the
+examples to help illustrate the data structures, but is not required.</p>
+
+<h3><a id="id2" href="#id2">Point</a></h3>
+
+<p>Point coordinates are in x, y order (easting, northing for projected
+coordinates, longitude, latitude for geographic coordinates):</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="id3" href="#id3">LineString</a></h3>
+
+<p>Coordinates of LineString are an array of positions (see <a href="#positions">2.1.1. Positions</a>):</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;LineString&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> <span class="p">]</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="id4" href="#id4">Polygon</a></h3>
+
+<p>Coordinates of a Polygon are an array of LinearRing coordinate arrays. The
+first element in the array represents the exterior ring. Any subsequent
+elements represent interior rings (or holes).</p>
+
+<p>No holes:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="p">]</span>
+      <span class="p">]</span>
+   <span class="p">}</span></code></pre></div>
+
+
+<p>With holes:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="p">],</span>
+      <span class="p">[</span> <span class="p">[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span> <span class="p">]</span>
+      <span class="p">]</span>
+   <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="id5" href="#id5">MultiPoint</a></h3>
+
+<p>Coordinates of a MultiPoint are an array of positions:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> <span class="p">]</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="id6" href="#id6">MultiLineString</a></h3>
+
+<p>Coordinates of a MultiLineString are an array of LineString coordinate arrays:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;MultiLineString&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">[</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">103.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span> <span class="p">]</span>
+      <span class="p">]</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="id7" href="#id7">MultiPolygon</a></h3>
+
+<p>Coordinates of a MultiPolygon are an array of Polygon coordinate arrays:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">[[[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">103.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">103.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]]],</span>
+      <span class="p">[[[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]],</span>
+       <span class="p">[[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]]]</span>
+      <span class="p">]</span>
+    <span class="p">}</span></code></pre></div>
+
+
+<h3><a id="geometrycollection" href="#geometrycollection">GeometryCollection</a></h3>
+
+<p>Each element in the geometries array of a GeometryCollection is one of the
+geometry objects described above:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;GeometryCollection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geometries&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">},</span>
+      <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;LineString&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;coordinates&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="mf">101.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span></code></pre></div>
+
+
+<h2><a id="appendix-b-contributors" href="#appendix-b-contributors">Appendix B. Contributors</a></h2>
+
+<p>The GeoJSON format specification is the product of discussion on the GeoJSON
+list: <a href="http://lists.geojson.org/listinfo.cgi/geojson-geojson.org">http://lists.geojson.org/listinfo.cgi/geojson-geojson.org</a></p>
+
+</div>
+
+    </section>
+
+      <script src="http://cdn.hcharts.cn/jquery/jquery-2.1.1.min.js"></script>
+      <script src="/js/nav.js"></script>
+
+  </body>
+</html>
